@@ -7,7 +7,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
     && chmod 777 /var/{run,log}/pgbouncer \
-    && curl -L -o /usr/bin/haberdasher https://github.com/RedHatInsights/haberdasher/releases/latest/download/haberdasher_linux_amd64 \
+    && curl -L -o /usr/bin/haberdasher https://github.com/RedHatInsights/haberdasher/releases/download/v0.1.5/haberdasher_linux_amd64 \
     && chmod 755 /usr/bin/haberdasher
 
 ADD entrypoint.sh /entrypoint.sh
