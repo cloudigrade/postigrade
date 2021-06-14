@@ -10,6 +10,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && chmod 777 /var/{run,log}/pgbouncer
 
 ADD entrypoint.sh /entrypoint.sh
+ADD readiness-probe.sh /readiness-probe.sh
 
 EXPOSE 5432
 
