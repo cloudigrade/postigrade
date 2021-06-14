@@ -12,6 +12,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
 ADD entrypoint.sh /entrypoint.sh
 ADD probe-liveness.sh /probe-liveness.sh
 ADD probe-readiness.sh /probe-readiness.sh
+RUN chmod +x /probe-{liveness,readiness}.sh
 
 EXPOSE 5432
 
