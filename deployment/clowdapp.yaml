@@ -1,0 +1,135 @@
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: postigrade
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: ClowdApp
+  metadata:
+    name: postigrade
+  spec:
+    envName: ${ENV_NAME}
+    deployments:
+    - name: svc
+      #
+      # Component cloudigrade-postigrade deployment:
+      #
+      replicas: 1
+      revisionHistoryLimit: 10
+      webServices:
+        public:
+          enabled: true
+      podSpec:
+        image: ${IMAGE}:${IMAGE_TAG}
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+              - /probe-liveness.sh
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          exec:
+            command:
+              - /probe-readiness.sh
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: ${POSTIGRADE_LIMITS_CONTAINER_CPU_REQUEST}
+            memory: ${POSTIGRADE_LIMITS_CONTAINER_MEM_REQUEST}
+          limits:
+            cpu: ${POSTIGRADE_LIMITS_CONTAINER_CPU_LIMIT}
+            memory: ${POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT}
+        env:
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              key: db.name
+              name: cloudigrade-rds
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              key: db.port
+              name: cloudigrade-rds
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: db.host
+              name: cloudigrade-rds
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: db.user
+              name: cloudigrade-rds
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: db.password
+              name: cloudigrade-rds
+        - name: HABERDASHER_EMITTER
+          value: ${HABERDASHER_EMITTER}
+        - name: HABERDASHER_KAFKA_BOOTSTRAP
+          value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+        - name: HABERDASHER_KAFKA_TOPIC
+          value: ${HABERDASHER_KAFKA_TOPIC}
+        - name: HABERDASHER_LABELS
+          value: ${HABERDASHER_LABELS}
+        - name: HABERDASHER_TAGS
+          value: ${HABERDASHER_TAGS}
+    database:
+      sharedDbAppName: cloudigrade
+      version: 12
+    dependencies:
+    - cloudigrade
+
+parameters:
+- name: IMAGE
+  displayName: Postigrade Image
+  required: true
+  value: quay.io/cloudservices/postigrade
+- name: IMAGE_TAG
+  displayName: Postigrade Image tag
+  required: true
+  value: latest
+- name: POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT
+  displayName: Postigrade Container Memory Limit
+  required: true
+  value: 1024Mi
+- name: POSTIGRADE_LIMITS_CONTAINER_MEM_REQUEST
+  displayName: Postigrade Container Memory Request
+  required: true
+  value: 512Mi
+- name: POSTIGRADE_LIMITS_CONTAINER_CPU_LIMIT
+  displayName: Postigrade Container CPU Limit
+  required: true
+  value: 1000m
+- name: POSTIGRADE_LIMITS_CONTAINER_CPU_REQUEST
+  displayName: Postigrade Container CPU Request
+  required: true
+  value: 500m
+- name: ENV_NAME
+  description: ClowdEnv Name
+  required: true
+- name: HABERDASHER_EMITTER
+  description: Emitter for haberdasher logs [stderr|kafka]
+  value: kafka
+- name: HABERDASHER_KAFKA_BOOTSTRAP
+  description: Bootstrap server for haberdasher kafka emitter
+  value: ''
+- name: HABERDASHER_KAFKA_TOPIC
+  description: Kafka topic for haberdasher kafka emitter
+  value: 'platform.logging.logs'
+- name: HABERDASHER_TAGS
+  description: Haberdasher tags for unstrutured logs
+  value: '["cloudigrade"]'
+- name: HABERDASHER_LABELS
+  description: Haberdasher labels for unstructured logs
+  value: '{"app": "cloudigrade"}'

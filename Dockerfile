@@ -9,12 +9,18 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
     && chmod 777 /var/{run,log}/pgbouncer
 
+# Need jq & ncat for parsing the clowder configuration and checking for DB readiness
+RUN microdnf install nmap-ncat jq -y \
+    && microdnf clean all
+
 ADD entrypoint.sh /entrypoint.sh
+ADD clowder_init.sh /clowder_init.sh
 ADD probe-liveness.sh /probe-liveness.sh
 ADD probe-readiness.sh /probe-readiness.sh
 RUN chmod +x /probe-{liveness,readiness}.sh
 
-EXPOSE 5432
+# Default is 5432, For Clowder it is 8000
+EXPOSE 5432 8000
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
