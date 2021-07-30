@@ -49,31 +49,6 @@ objects:
             cpu: ${POSTIGRADE_LIMITS_CONTAINER_CPU_LIMIT}
             memory: ${POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT}
         env:
-        - name: DB_NAME
-          valueFrom:
-            secretKeyRef:
-              key: db.name
-              name: cloudigrade-rds
-        - name: DB_PORT
-          valueFrom:
-            secretKeyRef:
-              key: db.port
-              name: cloudigrade-rds
-        - name: DB_HOST
-          valueFrom:
-            secretKeyRef:
-              key: db.host
-              name: cloudigrade-rds
-        - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              key: db.user
-              name: cloudigrade-rds
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: db.password
-              name: cloudigrade-rds
         - name: HABERDASHER_EMITTER
           value: ${HABERDASHER_EMITTER}
         - name: HABERDASHER_KAFKA_BOOTSTRAP
