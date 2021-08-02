@@ -53,7 +53,7 @@ pidfile = /var/run/pgbouncer/pgbouncer.pid
 auth_type = md5
 auth_file = /etc/pgbouncer/userlist.txt
 admin_users = postgres
-;; Uncomment the following for accessing via newer JDBC driver
+;; The following parameter allows access via newer JDBC driver
 ignore_startup_parameters = extra_float_digits
 " > ${PG_CONFIG_DIR}/pgbouncer.ini
 echo "Wrote pgbouncer config to ${PG_CONFIG_DIR}/pgbouncer.ini"
