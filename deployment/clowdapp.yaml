@@ -48,17 +48,6 @@ objects:
           limits:
             cpu: ${POSTIGRADE_LIMITS_CONTAINER_CPU_LIMIT}
             memory: ${POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT}
-        env:
-        - name: HABERDASHER_EMITTER
-          value: ${HABERDASHER_EMITTER}
-        - name: HABERDASHER_KAFKA_BOOTSTRAP
-          value: ${HABERDASHER_KAFKA_BOOTSTRAP}
-        - name: HABERDASHER_KAFKA_TOPIC
-          value: ${HABERDASHER_KAFKA_TOPIC}
-        - name: HABERDASHER_LABELS
-          value: ${HABERDASHER_LABELS}
-        - name: HABERDASHER_TAGS
-          value: ${HABERDASHER_TAGS}
     database:
       sharedDbAppName: cloudigrade
       version: 12
@@ -93,18 +82,3 @@ parameters:
 - name: ENV_NAME
   description: ClowdEnv Name
   required: true
-- name: HABERDASHER_EMITTER
-  description: Emitter for haberdasher logs [stderr|kafka]
-  value: kafka
-- name: HABERDASHER_KAFKA_BOOTSTRAP
-  description: Bootstrap server for haberdasher kafka emitter
-  value: ''
-- name: HABERDASHER_KAFKA_TOPIC
-  description: Kafka topic for haberdasher kafka emitter
-  value: 'platform.logging.logs'
-- name: HABERDASHER_TAGS
-  description: Haberdasher tags for unstrutured logs
-  value: '["cloudigrade"]'
-- name: HABERDASHER_LABELS
-  description: Haberdasher labels for unstructured logs
-  value: '{"app": "cloudigrade"}'
