@@ -5,9 +5,9 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && microdnf update \
     && microdnf install pgbouncer procps postgresql13 postgresql13-server nmap-ncat jq \
     && microdnf clean all \
-    && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
-    && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
-    && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt} \
+    && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
+    && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
+    && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /var/{run,log}/pgbouncer
 
 ADD entrypoint.sh /entrypoint.sh

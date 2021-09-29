@@ -25,6 +25,12 @@ if [[ -n "${ACG_CONFIG}" ]]; then
   echo "${LOGPREFIX} Database host:     ${DB_HOST}"
   echo "${LOGPREFIX} Database port:     ${DB_PORT}"
   echo "${LOGPREFIX} PG Bouncer port:   ${PG_BOUNCER_LISTEN_PORT}"
+  if [[ -n "${DB_SSLMODE}" ]]; then
+    echo "${LOGPREFIX} Database SSL Mode: ${DB_SSLMODE}"
+  fi
+  if [[ -s "${DB_CAFILE}" ]]; then
+    echo "${LOGPREFIX} Database CA File:  ${DB_CAFILE}"
+  fi
 
   [[ -z "${DB_HOST}" ]] && echo "${LOGPREFIX} Error: Missing Database configuration" && exit 1
 
@@ -55,7 +61,17 @@ auth_file = /etc/pgbouncer/userlist.txt
 admin_users = postgres
 ;; The following parameter allows access via newer JDBC driver
 ignore_startup_parameters = extra_float_digits
+;; SSL parameters for connecting to the postgres database
 " > ${PG_CONFIG_DIR}/pgbouncer.ini
+
+if [[ -n "${DB_SSLMODE}" ]]; then
+  echo "server_tls_sslmode=${DB_SSLMODE}" >> ${PG_CONFIG_DIR}/pgbouncer.ini
+fi
+
+if [[ -s "${DB_CAFILE}" ]]; then
+  echo "server_tls_ca_file=${DB_CAFILE}" >> ${PG_CONFIG_DIR}/pgbouncer.ini
+fi
+
 echo "Wrote pgbouncer config to ${PG_CONFIG_DIR}/pgbouncer.ini"
 
 echo "Starting $*..."
