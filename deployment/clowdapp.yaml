@@ -15,7 +15,7 @@ objects:
     # Component cloudigrade-postigrade deployment:
     #
     - name: svc
-      minReplicas: ${POSTIGRADE_MIN_REPLICAS}
+      minReplicas: ${{POSTIGRADE_MIN_REPLICAS}}
       revisionHistoryLimit: 10
       webServices:
         public:
