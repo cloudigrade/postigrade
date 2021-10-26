@@ -11,11 +11,11 @@ objects:
   spec:
     envName: ${ENV_NAME}
     deployments:
+    #
+    # Component cloudigrade-postigrade deployment:
+    #
     - name: svc
-      #
-      # Component cloudigrade-postigrade deployment:
-      #
-      replicas: 1
+      minReplicas: ${POSTIGRADE_MIN_REPLICAS}
       revisionHistoryLimit: 10
       webServices:
         public:
@@ -82,3 +82,7 @@ parameters:
 - name: ENV_NAME
   description: ClowdEnv Name
   required: true
+- name: POSTIGRADE_MIN_REPLICAS
+  description: Minimum number of replicas to run
+  required: true
+  value: '1'
