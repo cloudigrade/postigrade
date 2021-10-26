@@ -66,19 +66,19 @@ parameters:
 - name: POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT
   displayName: Postigrade Container Memory Limit
   required: true
-  value: 1024Mi
+  value: 256Mi
 - name: POSTIGRADE_LIMITS_CONTAINER_MEM_REQUEST
   displayName: Postigrade Container Memory Request
   required: true
-  value: 512Mi
+  value: 128Mi
 - name: POSTIGRADE_LIMITS_CONTAINER_CPU_LIMIT
   displayName: Postigrade Container CPU Limit
   required: true
-  value: 1000m
+  value: 400m
 - name: POSTIGRADE_LIMITS_CONTAINER_CPU_REQUEST
   displayName: Postigrade Container CPU Request
   required: true
-  value: 500m
+  value: 200m
 - name: ENV_NAME
   description: ClowdEnv Name
   required: true
