@@ -50,7 +50,7 @@ objects:
             memory: ${POSTIGRADE_LIMITS_CONTAINER_MEM_LIMIT}
     database:
       sharedDbAppName: cloudigrade
-      version: 12
+      version: 14
     dependencies:
     - cloudigrade
 
