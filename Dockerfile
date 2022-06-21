@@ -3,7 +3,6 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:8.6
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
     && rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
     && microdnf update \
-    && microdnf --enablerepo=epel-modular module enable nodejs:13 \
     && microdnf install pgbouncer procps postgresql14 postgresql14-server nmap-ncat jq \
     && microdnf clean all \
     && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
