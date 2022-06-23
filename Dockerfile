@@ -5,11 +5,14 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && microdnf update \
     && microdnf install pgbouncer procps postgresql14 postgresql14-server nmap-ncat jq \
     && microdnf clean all \
+    && pip3 install -U pip \
+    && pip install flatten-dict==0.4.2 \
     && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /var/{run,log}/pgbouncer
 
+ADD json_to_env.py /json_to_env.py
 ADD entrypoint.sh /entrypoint.sh
 ADD clowder_init.sh /clowder_init.sh
 ADD probe-liveness.sh /probe-liveness.sh
