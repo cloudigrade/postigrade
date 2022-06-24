@@ -27,20 +27,20 @@ objects:
           exec:
             command:
               - /probe-liveness.sh
-          failureThreshold: 4
-          initialDelaySeconds: 15
-          periodSeconds: 15
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 10
+          timeoutSeconds: 1
         readinessProbe:
           exec:
             command:
               - /probe-readiness.sh
-          failureThreshold: 4
-          initialDelaySeconds: 15
-          periodSeconds: 15
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 10
+          timeoutSeconds: 1
         resources:
           requests:
             cpu: ${POSTIGRADE_LIMITS_CONTAINER_CPU_REQUEST}
