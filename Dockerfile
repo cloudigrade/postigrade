@@ -50,4 +50,4 @@ ADD probe-readiness.sh /probe-readiness.sh
 EXPOSE 5432 8000
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+CMD ["/usr/local/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
