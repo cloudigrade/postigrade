@@ -29,6 +29,8 @@ RUN dnf module install --assumeyes postgresql:16/server \
     && dnf clean all \
     && pip3 install -U pip \
     && pip install flatten-dict==0.4.2 \
+    && mkdir /etc/pgbouncer \
+    && mkdir /var/{run,log}/pgbouncer \
     && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
