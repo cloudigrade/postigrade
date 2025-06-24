@@ -32,7 +32,7 @@ spec:
   taskRunSpecs:
     - pipelineTaskName: sast-shell-check
       stepSpecs:
-        - name: sast-shell-check-oci-ta
+        - name: sast-shell-check
           computeResources:
             requests:
               memory: 2Gi
