@@ -40,6 +40,8 @@ RUN ./configure --prefix=/usr/local \
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /var/{run,log}/pgbouncer
 
+RUN rm -rf /tmp/src
+
 ADD json_to_env.py /json_to_env.py
 ADD entrypoint.sh /entrypoint.sh
 ADD clowder_init.sh /clowder_init.sh
