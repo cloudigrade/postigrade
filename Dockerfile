@@ -1,12 +1,40 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.7-1049
+FROM registry.access.redhat.com/ubi9:9.6-1749542372 as base
 
-RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-    && rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
-    && microdnf update \
-    && microdnf install pgbouncer procps postgresql14 postgresql14-server nmap-ncat \
-    && microdnf clean all \
+RUN dnf install -y \
+    nmap-ncat \
+    python3 \
+    python3-pip \
+    procps \
+    && dnf module install --assumeyes postgresql:16/server postgresql:16/client \
     && pip3 install -U pip \
-    && pip install flatten-dict==0.4.2 \
+    && pip install flatten-dict==0.4.2
+
+FROM base as build
+
+RUN dnf install -y\
+      gcc \
+      gcc-c++ \
+      kernel-headers \
+      make \
+      zlib-devel \
+      pcre-devel \
+      openssl-devel \
+      libxml2-devel \
+      libxslt-devel \
+      libevent-devel \
+      gd-devel \
+      perl
+
+WORKDIR /tmp/src
+
+COPY src .
+
+RUN ./configure --prefix=/usr/local \
+    && make \
+    && make install \
+    && dnf clean all \
+    && mkdir /etc/pgbouncer \
+    && mkdir /var/{run,log}/pgbouncer \
     && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && touch /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
     && chmod 777 /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
@@ -22,4 +50,4 @@ ADD probe-readiness.sh /probe-readiness.sh
 EXPOSE 5432 8000
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+CMD ["/usr/local/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
