@@ -14,7 +14,8 @@ RUN dnf install -y\
       libxslt-devel \
       libevent-devel \
       gd-devel \
-      perl
+      perl \
+      python3
 
 WORKDIR /tmp/src
 
