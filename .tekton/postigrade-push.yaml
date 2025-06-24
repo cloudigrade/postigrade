@@ -26,6 +26,15 @@ spec:
     value: quay.io/redhat-user-workloads/teamnado-konflux-tenant/postigrade:{{revision}}
   - name: dockerfile
     value: Dockerfile
+  taskRunSpecs:
+    - pipelineTaskName: sast-shell-check
+      stepSpecs:
+        - name: sast-shell-check-oci-ta
+          computeResources:
+            requests:
+              memory: 2Gi
+            limits:
+              memory: 4Gi
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
