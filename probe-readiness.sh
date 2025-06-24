@@ -6,7 +6,7 @@
 
 source /clowder_init.sh
 
-PGPASSWORD="$DB_PASSWORD" /usr/pgsql-14/bin/psql \
+PGPASSWORD="$DB_PASSWORD" /usr/bin/psql \
   -h localhost -p ${PG_BOUNCER_LISTEN_PORT} -U "${DB_USER}" -d "${DB_NAME}" \
   -c "select 1 as psql_is_ready" 2>/dev/null \
   | grep "psql_is_ready"
