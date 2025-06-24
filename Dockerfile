@@ -12,6 +12,7 @@ RUN dnf install -y\
       openssl-devel \
       libxml2-devel \
       libxslt-devel \
+      libevent-devel \
       gd-devel \
       perl
 
