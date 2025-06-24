@@ -15,7 +15,8 @@ RUN dnf install -y\
       libevent-devel \
       gd-devel \
       perl \
-      python3
+      python3 \
+      python3-pip
 
 WORKDIR /tmp/src
 
