@@ -1,5 +1,14 @@
 FROM registry.access.redhat.com/ubi9:9.6-1749542372 as base
 
+RUN dnf install -y \
+    nmap-ncat \
+    python3 \
+    python3-pip \
+    procps \
+    && dnf module install --assumeyes postgresql:16/server postgresql:16/client \
+    && pip3 install -U pip \
+    && pip install flatten-dict==0.4.2
+
 FROM base as build
 
 RUN dnf install -y\
@@ -14,21 +23,16 @@ RUN dnf install -y\
       libxslt-devel \
       libevent-devel \
       gd-devel \
-      perl \
-      python3 \
-      python3-pip
+      perl
 
 WORKDIR /tmp/src
 
 COPY src .
 
-RUN dnf module install --assumeyes postgresql:16/server \
-    && ./configure --prefix=/usr/local \
+RUN ./configure --prefix=/usr/local \
     && make \
     && make install \
     && dnf clean all \
-    && pip3 install -U pip \
-    && pip install flatten-dict==0.4.2 \
     && mkdir /etc/pgbouncer \
     && mkdir /var/{run,log}/pgbouncer \
     && rm -rf /etc/pgbouncer/{pgbouncer.ini,userlist.txt,rdsca.cert} \
