@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9:9.6-1760340943 as base
+FROM registry.access.redhat.com/ubi9:9.7-1764163501 as base
 
 RUN dnf install -y \
     nmap-ncat \
